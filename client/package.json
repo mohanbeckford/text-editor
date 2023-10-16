@@ -5,7 +5,7 @@
     "build": "webpack --mode production",
     "start": "webpack --watch"
   },
-  "author": "2U",
+  "author": "Mohan",
   "license": "UNLICENSED",
   "devDependencies": {
     "@babel/core": "^7.15.0",
@@ -24,6 +24,11 @@
     "webpack-pwa-manifest": "^4.3.0",
     "workbox-webpack-plugin": "^6.2.4"
   },
+
+  "engines": {
+    "node": "16.20.0"
+  },
+
   "dependencies": {
     "code-mirror-themes": "^1.0.0",
     "idb": "^6.1.2"
