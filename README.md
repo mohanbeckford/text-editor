@@ -50,7 +50,7 @@ THEN I should have proper build scripts for a webpack application
 1. Launch Text Editor.
 2. Begin typing your notes or code snippets.
 3. When done, simply navigate away; it will automatically saves your content.
-4. To install the text editor on your desktop, click the `"Install"` button.
+4. To install the text editor on your desktop, click the "Install" button.
 5. To retrieve saved content, just reopen the application.
 
 ## Live Demo
