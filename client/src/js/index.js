@@ -1,7 +1,7 @@
 import { Workbox } from 'workbox-window';
 import Editor from './editor';
 import './database';
-import './install';
+import '../css/style.css';
 
 const main = document.querySelector('#main');
 main.innerHTML = '';
@@ -11,7 +11,7 @@ const loadSpinner = () => {
   spinner.classList.add('spinner');
   spinner.innerHTML = `
   <div class="loading-container">
-  <div class="loading-spinner"></div>
+  <div class="loading-spinner" />
   </div>
   `;
   main.appendChild(spinner);

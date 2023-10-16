@@ -1,11 +1,13 @@
-import { precacheAndRoute } from 'workbox-precaching';
-import { registerRoute } from 'workbox-routing';
-import { CacheFirst } from 'workbox-strategies';
-import { CacheableResponsePlugin } from 'workbox-cacheable-response';
-import { ExpirationPlugin } from 'workbox-expiration';
+const { warmStrategyCache } = require('workbox-recipes');
+const { CacheFirst, StaleWhileRevalidate } = require('workbox-strategies');
+const { registerRoute } = require('workbox-routing');
+const { CacheableResponsePlugin } = require('workbox-cacheable-response');
+const { ExpirationPlugin } = require('workbox-expiration');
+const { precacheAndRoute } = require('workbox-precaching/precacheAndRoute');
 
 precacheAndRoute(self.__WB_MANIFEST);
 
+// Set up page cache
 const pageCache = new CacheFirst({
   cacheName: 'page-cache',
   plugins: [
@@ -18,29 +20,22 @@ const pageCache = new CacheFirst({
   ],
 });
 
-// Cache CSS files using CacheFirst strategy
-registerRoute(
-  /\.(css)$/,
-  new CacheFirst({
-    cacheName: 'css-cache',
-  })
-);
+warmStrategyCache({
+  urls: ['/index.html', '/'],
+  strategy: pageCache,
+});
 
-// Cache images using StaleWhileRevalidate strategy
+registerRoute(({ request }) => request.mode === 'navigate', pageCache);
+
+// Set up asset cache
 registerRoute(
-  /\.(png|jpg|jpeg|svg|gif)$/,
-  new CacheFirst({
-    cacheName: 'image-cache',
+  ({ request }) => ['style', 'script', 'worker'].includes(request.destination),
+  new StaleWhileRevalidate({
+    cacheName: 'asset-cache',
     plugins: [
       new CacheableResponsePlugin({
         statuses: [0, 200],
       }),
-      new ExpirationPlugin({
-        maxEntries: 50,
-        maxAgeSeconds: 30 * 24 * 60 * 60,
-      }),
     ],
   })
 );
-
-registerRoute(({ request }) => request.mode === 'navigate', pageCache);
